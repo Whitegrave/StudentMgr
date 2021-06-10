@@ -9,7 +9,11 @@ namespace StudentMgr.Data
 {
     public class StudentRepo
     {
-        // List, add, edit, delete
+        private string filePath;
+        public StudentRepo(string path)
+        {
+            this.filePath = path;
+        }
         public List<Student> List()
         {
             throw new NotImplementedException();
