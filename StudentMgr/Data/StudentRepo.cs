@@ -43,7 +43,10 @@ namespace StudentMgr.Data
 
         public void Add(Student toAdd)
         {
-            throw new NotImplementedException();
+            using (StreamWriter sw = new StreamWriter(filePath, true))
+            {
+                sw.WriteLine($"{toAdd.FirstName},{toAdd.LastName},{toAdd.Major},{toAdd.GPA.ToString()}");
+            }
         }
 
         public void Edit(Student toEdit, int index)

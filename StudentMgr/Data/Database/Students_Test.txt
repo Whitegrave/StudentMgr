@@ -3,3 +3,4 @@ Joe,Smith,Computer Science, 3.5
 Mary,Jones,Business,3.0
 Jane,Doe,Computer Science,4.0
 Bobby,Tables,English,2.7
+Test,Tester,Testing,4.0
