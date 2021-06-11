@@ -1,5 +1,6 @@
 ﻿using StudentMgr.Models;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,28 @@ namespace StudentMgr.Data
         }
         public List<Student> List()
         {
-            throw new NotImplementedException();
+            List<Student> students = new List<Student>();
+
+            using (StreamReader sr = new StreamReader(filePath))
+            {
+                sr.ReadLine(); // Skips first line, discards
+                string line;
+
+                while ((line = sr.ReadLine()) != null)
+                {
+                    Student newStudent = new Student();
+
+                    string[] columns = line.Split(",");
+                    newStudent.FirstName = columns[0];
+                    newStudent.LastName = columns[1];
+                    newStudent.Major = columns[2];
+                    newStudent.GPA = decimal.Parse(columns[3]);
+
+                    students.Add(newStudent);
+                }
+            }
+
+            return students;
         }
 
         public void Add(Student toAdd)
