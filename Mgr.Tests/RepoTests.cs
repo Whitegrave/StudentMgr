@@ -60,5 +60,39 @@ namespace Mgr.Tests
             Assert.AreEqual("Testing", check.Major);
             Assert.AreEqual(4.0M, check.GPA);
         }
+
+        [Test]
+        public void CanDeleteStudent()
+        {
+            StudentRepo repo = new StudentRepo(live_path);
+            repo.Delete(0);
+
+            List<Student> students = repo.List();
+
+            Assert.AreEqual(3, students.Count);
+
+            Student check = students[0];
+
+            Assert.AreEqual("Mary", check.FirstName);
+            Assert.AreEqual("Jones", check.LastName);
+            Assert.AreEqual("Business", check.Major);
+            Assert.AreEqual(3.0M, check.GPA);
+        }
+
+        [Test]
+        public void CanEditStudent()
+        {
+            StudentRepo repo = new StudentRepo(live_path);
+            List<Student> students = repo.List();
+
+            Student edited = students[0];
+            edited.GPA = 1.0M;
+
+            repo.Edit(edited, 0);
+
+            students = repo.List();
+
+            Assert.AreEqual(1.0M, students[0].GPA);
+        }
     }
 }

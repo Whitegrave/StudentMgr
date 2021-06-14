@@ -45,18 +45,41 @@ namespace StudentMgr.Data
         {
             using (StreamWriter sw = new StreamWriter(filePath, true))
             {
-                sw.WriteLine($"{toAdd.FirstName},{toAdd.LastName},{toAdd.Major},{toAdd.GPA.ToString()}");
+                sw.WriteLine(CreateStudentCSV(toAdd));
             }
         }
 
         public void Edit(Student toEdit, int index)
         {
-            throw new NotImplementedException();
+            var students = List();
+            students[index] = toEdit;
+            CreateStudentFile(students);
         }
 
         public void Delete (int toDelete)
         {
-            throw new NotImplementedException();
+            var students = List();
+            students.RemoveAt(toDelete);
+            CreateStudentFile(students);
+        }
+
+        private string CreateStudentCSV(Student student)
+        {
+            return $"{student.FirstName},{student.LastName},{student.Major},{student.GPA.ToString()}";
+        }
+        private void CreateStudentFile(List<Student> students)
+        {
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+
+            using(StreamWriter sr = new StreamWriter(filePath))
+            {
+                sr.WriteLine("FirstName,LastName,Major,GPA");
+                foreach (var item in students)
+                {
+                    sr.WriteLine(CreateStudentCSV(item));
+                }
+            }
         }
     }
 }
