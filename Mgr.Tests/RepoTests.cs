@@ -10,12 +10,21 @@ namespace Mgr.Tests
     [TestFixture]
     public class RepoTests
     {
-        private static string path = Directory.GetCurrentDirectory() + @"..\..\..\..\..\StudentMgr\Data\Database\Students_Test.txt";
+        private static string original_path = Directory.GetCurrentDirectory() + @"..\..\..\..\..\StudentMgr\Data\Database\Students_Test.txt";
+        private static string live_path = Directory.GetCurrentDirectory() + @"..\..\..\..\..\StudentMgr\Data\Database\Students_Test_Live.txt";
+        [SetUp]
+        public void Setup()
+        {
+            if (File.Exists(live_path))
+                File.Delete(live_path);
+
+            File.Copy(original_path, live_path);
+        }
 
         [Test]
         public void CanReadDataFromFile()
         {
-            StudentRepo repo = new StudentRepo(path);
+            StudentRepo repo = new StudentRepo(live_path);
             List<Student> students = repo.List();
 
             Assert.IsTrue(students.Count() > 0);
@@ -31,7 +40,7 @@ namespace Mgr.Tests
         [Test]
         public void CanAddStudentToFile()
         {
-            StudentRepo repo = new StudentRepo(path);
+            StudentRepo repo = new StudentRepo(live_path);
 
             Student newStudent = new Student();
             newStudent.FirstName = "Test";
